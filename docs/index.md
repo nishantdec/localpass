@@ -37,8 +37,8 @@ flowchart LR
         vault[("Encrypted SQLCipher Envelope")]
     end
 
-    ext <-->|Stdio Stream (JSON)| daemon
-    daemon <-->|Argon2id + AES-256-GCM| vault
+    ext -->|Stdio Stream (JSON)| daemon
+    daemon -->|Argon2id + AES-256-GCM| vault
 
     style ext fill:#121214,stroke:#27272a,stroke-width:1px
     style daemon fill:#121214,stroke:#27272a,stroke-width:1px

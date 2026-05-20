@@ -37,10 +37,10 @@ theme:
     - content.code.copy
 
 extra_css:
-  - stylesheets/extra.css?v=1.2.0
+  - stylesheets/extra.css?v=1.3.0
 
 extra_javascript:
-  - javascripts/extra.js?v=1.2.0
+  - javascripts/extra.js?v=1.3.0
 
 plugins:
   - search:
