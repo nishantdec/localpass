@@ -6,6 +6,7 @@ on:
       - main
     tags:
       - 'v*'
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -15,12 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: 'pip'
@@ -46,3 +47,14 @@ jobs:
             echo "Deploying active branch main update"
             mike deploy --push --update-aliases dev latest
           fi
+          mike set-default --push latest
+
+      - name: Run Post-Deployment Diagnostics
+        run: |
+          echo "==== Git Branch List ===="
+          git branch -a
+          echo "==== Fetching gh-pages ===="
+          git fetch origin gh-pages
+          echo "==== gh-pages Commit Logs ===="
+          git log -n 5 origin/gh-pages
+
