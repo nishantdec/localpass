@@ -1,17 +1,70 @@
 /* localpass Premium Dark Modern Design System */
 
 :root {
-  /* Override Material Theme Variables */
-  --md-primary-fg-color: #0d1117;
-  --md-primary-fg-color--light: #161b22;
-  --md-primary-fg-color--dark: #010409;
+  /* Premium System Font Stacks (Vercel / Stripe inspired) */
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", "SFMono-Regular", Consolas, Menlo, monospace;
+
+  /* Global Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Force Fonts globally to eliminate layout shift and provide elegant typography */
+body, input, select, textarea {
+  font-family: var(--font-sans) !important;
+}
+code, kbd, pre, samp {
+  font-family: var(--font-mono) !important;
+  font-size: 0.85em !important;
+}
+
+/* Palette Overrides - Dark Theme (Slate / Zinc-950) */
+[data-md-color-scheme="slate"] {
+  --md-default-bg-color: #09090b; /* Pure zinc-950 dark */
+  --md-default-fg-color: #fafafa; /* Off-white text */
+  --md-default-fg-color--light: #a1a1aa; /* Zinc-400 */
+  --md-default-fg-color--lighter: #52525b; /* Zinc-600 */
   
-  --md-accent-fg-color: #00ffd5;
-  --md-accent-fg-color--transparent: rgba(0, 255, 213, 0.1);
+  --md-primary-fg-color: #09090b;
+  --md-primary-fg-color--light: #09090b;
+  --md-primary-fg-color--dark: #09090b;
   
-  /* Layout Transitions */
-  --tr-duration: 0.25s;
-  --tr-timing: cubic-bezier(0.4, 0, 0.2, 1);
+  --md-accent-fg-color: #06b6d4; /* Cyber cyan accent */
+  --md-accent-fg-color--transparent: rgba(6, 182, 212, 0.15);
+  
+  /* Borders & Surfaces */
+  --border-color: #27272a; /* Zinc-800 */
+  --surface-color: #09090b; /* Slate surface */
+  --surface-elevated: #121214; /* Slate elevated card */
+  --surface-hover: #18181b; /* Slate hover state */
+  
+  --md-code-bg-color: #0c0c0e; /* Extremely dark pre background */
+  --md-code-fg-color: #e4e4e7;
+}
+
+/* Palette Overrides - Light Theme (Default / White) */
+[data-md-color-scheme="default"] {
+  --md-default-bg-color: #ffffff;
+  --md-default-fg-color: #09090b; /* Near black text */
+  --md-default-fg-color--light: #4b5563; /* Gray-600 */
+  --md-default-fg-color--lighter: #9ca3af; /* Gray-400 */
+  
+  --md-primary-fg-color: #ffffff;
+  --md-primary-fg-color--light: #ffffff;
+  --md-primary-fg-color--dark: #ffffff;
+  
+  --md-accent-fg-color: #0891b2; /* Refined cyan dark accent */
+  --md-accent-fg-color--transparent: rgba(8, 145, 178, 0.1);
+  
+  /* Borders & Surfaces */
+  --border-color: #e4e4e7; /* Zinc-200 */
+  --surface-color: #ffffff;
+  --surface-elevated: #fafafa; /* Zinc-50 */
+  --surface-hover: #f4f4f5; /* Zinc-100 */
+  
+  --md-code-bg-color: #f4f4f5;
+  --md-code-fg-color: #09090b;
 }
 
 /* Custom Accessibility Outline */
@@ -20,109 +73,280 @@
   outline-offset: 3px !important;
 }
 
-/* Premium Scrollbars */
+/* Premium Webkit Scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 4px;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(100, 116, 139, 0.3);
-  border-radius: 4px;
-  transition: background var(--tr-duration) var(--tr-timing);
+  background: var(--border-color);
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--md-accent-fg-color);
 }
 
-/* Theme Override Tweaks */
+/* --- Layout & Width Refinements --- */
+.md-grid {
+  max-width: 72rem !important; /* Tighten content layout to 1152px for high readability */
+}
+.md-content {
+  max-width: 48rem !important; /* Restrict paragraph widths to ~768px for optimal reading */
+}
+
+/* --- Navigation & Header Polish --- */
 .md-header {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(10px);
-  background-color: rgba(13, 17, 23, 0.85) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  background-color: var(--md-default-bg-color) !important;
+  backdrop-filter: blur(12px);
+  transition: background-color var(--transition-fast);
 }
 
-/* Glassmorphism Feature Grid & Cards */
-.lp-hero-banner {
-  padding: 4rem 1.5rem;
-  background: radial-gradient(circle at top right, rgba(0, 255, 213, 0.08), transparent 50%),
-              radial-gradient(circle at bottom left, rgba(0, 150, 255, 0.05), transparent 50%);
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  text-align: center;
-  margin-bottom: 3rem;
+/* Modern Minimalist Navigation Tabs */
+.md-tabs {
+  background-color: var(--md-default-bg-color) !important;
+  border-bottom: 1px solid var(--border-color);
+  height: 2.2rem;
+}
+.md-tabs__link {
+  font-size: 0.8rem !important;
+  font-weight: 500 !important;
+  color: var(--md-default-fg-color--light) !important;
+  padding-bottom: 0.5rem !important;
+  border-bottom: 2px solid transparent;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+.md-tabs__link--active, .md-tabs__link:hover {
+  color: var(--md-default-fg-color) !important;
+}
+.md-tabs__link--active {
+  border-bottom-color: var(--md-accent-fg-color) !important;
 }
 
-.lp-hero-title {
-  font-size: 2.8rem;
-  font-weight: 800;
-  letter-spacing: -0.05em;
-  margin-bottom: 1rem;
-  background: linear-gradient(135deg, #ffffff 30%, #a5f3fc 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* Left Sidebar Navigation Menu Styling */
+.md-nav__link {
+  font-size: 0.85rem !important;
+  transition: color var(--transition-fast);
+  color: var(--md-default-fg-color--light);
+}
+.md-nav__link--active {
+  color: var(--md-accent-fg-color) !important;
+  font-weight: 600 !important;
+}
+.md-nav__item .md-nav__link:hover {
+  color: var(--md-default-fg-color);
 }
 
-.lp-hero-subtitle {
-  font-size: 1.25rem;
-  color: #94a3b8;
-  max-width: 600px;
-  margin: 0 auto 2rem auto;
-  line-height: 1.6;
+/* --- Search Bar Styling --- */
+.md-search__inner {
+  background-color: var(--surface-elevated) !important;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  transition: border-color var(--transition-fast);
 }
-
-.lp-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 3rem;
-}
-
-.lp-card {
-  padding: 1.75rem;
-  background: rgba(22, 27, 34, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 8px;
-  backdrop-filter: blur(8px);
-  transition: border-color var(--tr-duration) var(--tr-timing),
-              box-shadow var(--tr-duration) var(--tr-timing),
-              transform var(--tr-duration) var(--tr-timing);
-  cursor: pointer;
-}
-
-.lp-card:hover {
+.md-search__inner:focus-within {
   border-color: var(--md-accent-fg-color);
-  box-shadow: 0 0 20px rgba(0, 255, 213, 0.15);
-  transform: translateY(-2px);
+}
+.md-search__input {
+  background-color: transparent !important;
+  font-size: 0.85rem !important;
 }
 
-.lp-card-icon {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  display: inline-block;
-}
+/* --- Premium Component Redesign --- */
 
-.lp-card-title {
-  font-size: 1.15rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  color: #f8fafc;
+/* Hero Redesign (Left-aligned, sharp boundaries) */
+.lp-hero-banner {
+  padding: 3.5rem 2rem;
+  background: var(--surface-elevated) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px;
+  text-align: left;
+  margin: 2rem 0;
+  max-width: 100%;
 }
-
-.lp-card-desc {
-  font-size: 0.95rem;
-  color: #94a3b8;
+.lp-hero-title {
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  color: var(--md-default-fg-color) !important;
+  margin-bottom: 0.75rem;
+  border: none !important;
+  padding: 0 !important;
+}
+.lp-hero-subtitle {
+  font-size: 1.05rem;
+  color: var(--md-default-fg-color--light) !important;
+  max-width: 680px;
+  margin: 0 0 1.75rem 0;
   line-height: 1.5;
 }
 
-/* Accessible Admonitions Styles */
+/* Sleek Tech CTA Buttons */
+.lp-hero-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.lp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 6px;
+  transition: all var(--transition-fast);
+  text-decoration: none !important;
+}
+.lp-btn-primary {
+  background-color: var(--md-default-fg-color);
+  color: var(--md-default-bg-color) !important;
+  border: 1px solid var(--md-default-fg-color);
+}
+.lp-btn-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+.lp-btn-secondary {
+  background-color: transparent;
+  color: var(--md-default-fg-color) !important;
+  border: 1px solid var(--border-color);
+}
+.lp-btn-secondary:hover {
+  background-color: var(--surface-hover);
+  border-color: var(--md-default-fg-color--light);
+  transform: translateY(-1px);
+}
+
+/* Card System Refinement */
+.lp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.lp-card {
+  padding: 1.25rem;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+.lp-card:hover {
+  border-color: var(--md-accent-fg-color);
+  background-color: var(--surface-hover);
+  transform: translateY(-2px);
+}
+.lp-card-icon {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: var(--md-accent-fg-color);
+}
+.lp-card-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--md-default-fg-color);
+  letter-spacing: -0.01em;
+}
+.lp-card-desc {
+  font-size: 0.8rem;
+  color: var(--md-default-fg-color--light);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Custom Table Polish (Stripe Style) */
+.md-typeset table:not([class]) {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5rem 0;
+  border: none;
+  font-size: 0.85rem;
+}
+.md-typeset table:not([class]) th {
+  background: transparent;
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.75rem 0.5rem;
+  font-weight: 600;
+  color: var(--md-default-fg-color);
+  text-align: left;
+}
+.md-typeset table:not([class]) td {
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid rgba(100, 116, 139, 0.1);
+  color: var(--md-default-fg-color--light);
+}
+.md-typeset table:not([class]) tr:hover td {
+  color: var(--md-default-fg-color);
+}
+
+/* Admonition Improvements */
 .admonition {
-  border-left-width: 4px !important;
+  border-left-width: 3px !important;
   border-radius: 6px !important;
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-elevated) !important;
+  font-size: 0.85rem;
+  margin: 1.5rem 0 !important;
+}
+.admonition-title {
+  font-weight: 600 !important;
+  background-color: transparent !important;
+  padding-bottom: 0.25rem !important;
+}
+
+/* Code Blocks Styling */
+.highlight {
+  border-radius: 6px !important;
+  border: 1px solid var(--border-color) !important;
+  background-color: var(--md-code-bg-color) !important;
+}
+.md-typeset pre code {
+  background-color: transparent !important;
+}
+
+/* Typography Scales & Spacing */
+.md-typeset h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+.md-typeset h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.3rem;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+.md-typeset h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-top: 1.5rem;
+}
+.md-typeset p {
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+  color: var(--md-default-fg-color--light);
+}
+
+/* Footer overrides */
+.md-footer {
+  border-top: 1px solid var(--border-color) !important;
+  background-color: var(--md-default-bg-color) !important;
 }
 
 /* Reduced Motion Compliance */
