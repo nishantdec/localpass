@@ -1,0 +1,8 @@
+title: Technical Reference
+arrange:
+  - keyboard-shortcuts.md
+  - config-reference.md
+  - file-index.md
+  - function-index.md
+  - passkey-status.md
+  - glossary.md

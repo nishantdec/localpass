@@ -1,0 +1,37 @@
+name: Pull Request Documentation Quality Gates
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-size: '18'
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Documentation Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-docs.txt
+
+      - name: Run Markdown Lint Checks
+        run: |
+          npx markdownlint-cli2 "docs/**/*.md" "*.md"
+
+      - name: Perform Strict Documentation Build
+        run: |
+          mkdocs build --strict

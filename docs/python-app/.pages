@@ -1,0 +1,9 @@
+title: Python Application
+arrange:
+  - overview.md
+  - core
+  - ui
+  - utils
+  - server
+  - native-host
+  - ...

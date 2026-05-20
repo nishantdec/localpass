@@ -1,0 +1,9 @@
+title: Developer Guides
+arrange:
+  - adding-a-new-view.md
+  - adding-a-new-entry-type.md
+  - adding-a-new-endpoint.md
+  - debugging.md
+  - building-exe.md
+  - replicating-the-system.md
+  - future-features.md

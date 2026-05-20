@@ -1,0 +1,9 @@
+title: View Panels
+arrange:
+  - entries.md
+  - search.md
+  - detail.md
+  - save.md
+  - generator-view.md
+  - settings.md
+  - menu.md

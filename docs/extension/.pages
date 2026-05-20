@@ -1,0 +1,9 @@
+title: Browser Extension
+arrange:
+  - overview.md
+  - setup.md
+  - background
+  - content
+  - popup
+  - utils
+  - ...

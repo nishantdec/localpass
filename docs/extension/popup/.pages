@@ -1,0 +1,6 @@
+title: Extension Popup
+arrange:
+  - popup.md
+  - views
+  - styles
+  - ...

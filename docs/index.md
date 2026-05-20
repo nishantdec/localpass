@@ -1,105 +1,112 @@
-# localpass Documentation
+---
+title: "localpass Documentation"
+description: "Master landing portal for the localpass password manager and authenticator developer documentation."
+related_docs:
+  - "README.md"
+  - "QUICKSTART.md"
+codebase_files: []
+ai_context:
+  component: "Documentation Gateway"
+  boundary: "User Interface"
+---
 
-> Complete documentation for the localpass password manager.
-> Terminal app + browser extension. Fully offline. Zero knowledge.
+<!-- localpass Hero Banner -->
+<div class="lp-hero-banner">
+  <h1 class="lp-hero-title">localpass Documentation</h1>
+  <p class="lp-hero-subtitle">
+    The developer portal for localpass. A zero-knowledge, offline-first, phishing-resistant local password manager and WebExtension virtual passkey authenticator.
+  </p>
+  <a href="../QUICKSTART.md" class="md-button md-button--primary" style="margin-right: 10px;">Quick Start Guide</a>
+  <a href="architecture/overview.md" class="md-button">Explore Architecture</a>
+</div>
+
+<!-- Modern Feature Grid -->
+<div class="lp-grid">
+  
+  <div class="lp-card" onclick="window.location.href='architecture/security-model.md';">
+    <div class="lp-card-icon">🛡️</div>
+    <h3 class="lp-card-title">Zero Knowledge Security</h3>
+    <p class="lp-card-desc">
+      Explore our envelope cryptosystem leveraging Argon2id key derivation and AES-256-GCM authenticated encryption.
+    </p>
+  </div>
+
+  <div class="lp-card" onclick="window.location.href='reference/passkey-status.md';">
+    <div class="lp-card-icon">🔑</div>
+    <h3 class="lp-card-title">FIDO2 Virtual Passkeys</h3>
+    <p class="lp-card-desc">
+      Detailed specifications of our ECDSA P-256 CBOR byte-packing virtual authenticators and attestation structures.
+    </p>
+  </div>
+
+  <div class="lp-card" onclick="window.location.href='architecture/decisions.md';">
+    <div class="lp-card-icon">🏗️</div>
+    <h3 class="lp-card-title">Native Stdio IPC</h3>
+    <p class="lp-card-desc">
+      Read about our process boundaries, trust boundaries, and why we transitioned from TCP port sockets to standard I/O pipes.
+    </p>
+  </div>
+
+  <div class="lp-card" onclick="window.location.href='troubleshooting/mistakes-lessons.md';">
+    <div class="lp-card-icon">📓</div>
+    <h3 class="lp-card-title">Post-Mortem Logs</h3>
+    <p class="lp-card-desc">
+      Lessons learned from React state bypasses, ctypes memory scrubbing races, and MutationObserver infinite loops.
+    </p>
+  </div>
+
+</div>
 
 ---
 
-## Quick Navigation
+## Technical Portals Navigation
 
-| I want to... | Go to |
-|---|---|
-| Get it running fast | [Quick Start](../QUICKSTART.md) |
-| Understand how it works | [Architecture Overview](architecture/overview.md) |
-| See how encryption works | [Security Model](architecture/security-model.md) |
-| Use the browser extension | [Extension Setup](extension/setup.md) |
-| Add a new feature | [Developer Guides](guides/adding-a-new-view.md) |
-| Debug a problem | [Debugging Guide](guides/debugging.md) |
-| Look up a function | [Function Index](reference/function-index.md) |
-| Understand a term | [Glossary](reference/glossary.md) |
-
----
-
-## Terminal App
-
-![TUI Dashboard](../assets/screenshots/terminal/tui-03-dashboard.png)
-
+### System Architecture
 | Section | Description |
 |---|---|
-| [Overview](python-app/overview.md) | What the Python app does |
-| [Auth & Encryption](python-app/core/auth.md) | Master password and key derivation |
-| [Vault](python-app/core/vault.md) | How the vault file works |
-| [Entries](python-app/core/entries.md) | Credential data model |
-| [TOTP](python-app/core/totp.md) | Two-factor code generation |
-| [Generator](python-app/core/generator.md) | Password generator logic |
-| [Unlock Screen](python-app/ui/screens/unlock.md) | First screen |
-| [Dashboard](python-app/ui/screens/dashboard.md) | Main menu |
-| [Search](python-app/ui/screens/search.md) | Find entries |
-| [Settings](python-app/ui/screens/settings.md) | Configuration |
+| [System Overview](architecture/overview.md) | Full multi-layered system map and AppData locations |
+| [Data Flow Architecture](architecture/data-flow.md) | Ingress/egress pipelines, schemas, and state loops |
+| [Security Model](architecture/security-model.md) | Cryptographic security model and threat analysis |
+| [Extension Internals](architecture/extension-architecture.md) | DOM scanner heuristics, MutationObservers, and element value set overrides |
+| [Design Decisions & Flows](architecture/decisions.md) | Detailed process post-mortems and Mermaid flowcharts |
 
 ---
 
-## Browser Extension
-
-![Extension Vault](../assets/screenshots/extension/ext-01-vault-entries.png)
-
+### Python Daemon Core
 | Section | Description |
 |---|---|
-| [Overview](extension/overview.md) | What the extension does |
-| [Setup Guide](extension/setup.md) | How to install and load |
-| [Background Service](extension/background/background.md) | Service worker |
-| [Autofill](extension/content/injector.md) | How field filling works |
-| [Popup Views](extension/popup/popup.md) | All popup screens |
-| [Entries View](extension/popup/views/entries.md) | Main vault view |
-| [Generator View](extension/popup/views/generator-view.md) | Generator in popup |
+| [Auth & KDF](python-app/core/auth.md) | Master password KDF key-lifecycle and memory scrubbing |
+| [Vault Adapter](python-app/core/adapter.md) | Stateless decoupling bridge separating endpoints from SQLite disk envelopes |
+| [Audit Service](python-app/core/audit.md) | Thread-safe, tamper-evident transaction log hash-chaining |
+| [Domain Engine](python-app/core/domain_trust.md) | Phishing-resistant Public Suffix List (PSL) trust calculations |
+| [Schema Upgrades](python-app/core/migrations.md) | Schema version migration pipelines maintaining backward compatibility |
+| [TOTP Engine](python-app/core/totp.md) | RFC 6238-compliant TOTP codes generation |
 
 ---
 
-## API Reference
-
+### Browser Extension WebExtension
 | Section | Description |
 |---|---|
-| [Local Server API](api/local-server-api.md) | All HTTP endpoints |
-| [Message Passing API](api/message-passing-api.md) | Chrome messages |
-| [Vault File Format](api/vault-file-format.md) | Binary format spec |
+| [Extension Overview](extension/overview.md) | Manifest V3 sandboxed environment layout |
+| [Background Worker](extension/background/background.md) | Background lifecycle service worker loops |
+| [Inline Autocomplete](extension/content/dropdown.md) | Webpage form overlays and framework value filling |
+| [Popup SPA views](extension/popup/popup.md) | Single Page Application popup UI design tokens and views css |
+| [Local Client Fetch Bridge](extension/utils/bridge.md) | Localhost fetch bridges, security parameters, and timeouts |
 
 ---
 
-## Architecture
-
+### API & Reference Directory
 | Section | Description |
 |---|---|
-| [System Overview](architecture/overview.md) | Full system map |
-| [Data Flow](architecture/data-flow.md) | How data moves |
-| [Security Model](architecture/security-model.md) | Encryption details |
-| [System Diagram](architecture/diagrams/system-overview.md) | ASCII diagram |
-| [Autofill Flow](architecture/diagrams/autofill-flow.md) | Fill sequence |
+| [Local Server Routes](api/local-server-api.md) | Comprehensive catalog of HTTP challenge-response REST routes |
+| [Chrome Messages](api/message-passing-api.md) | Runtime message structures and schemas |
+| [Vault File Format](api/vault-file-format.md) | Plaintext JSON schema validation models |
+| [Function Index](reference/function-index.md) | Exact signatures and return formats for core backend functions |
+| [Contribute Onboarding](contributing/onboarding.md) | Quality gates, markdown linting, pre-commits, and convention guides |
 
 ---
 
-## Developer Guides
-
-| Guide | Description |
-|---|---|
-| [Add a New View](guides/adding-a-new-view.md) | New popup screen |
-| [Add an Entry Type](guides/adding-a-new-entry-type.md) | New credential type |
-| [Add an Endpoint](guides/adding-a-new-endpoint.md) | New server route |
-| [Debugging](guides/debugging.md) | Debug every layer |
-| [Build as EXE](guides/building-exe.md) | PyInstaller packaging |
-| [Future Features](guides/future-features.md) | Planned work |
+*[Back to project root README](https://github.com/nishantdec/localpass/blob/main/README.md)*
 
 ---
-
-## Reference
-
-| Reference | Description |
-|---|---|
-| [File Index](reference/file-index.md) | Every file explained |
-| [Function Index](reference/function-index.md) | Every function |
-| [Keyboard Shortcuts](reference/keyboard-shortcuts.md) | All keybinds |
-| [Config Reference](reference/config-reference.md) | config.json fields |
-| [Glossary](reference/glossary.md) | Terms and definitions |
-
----
-
-*[Back to project root README](../README.md)*
+*[Back to Top](#)*

@@ -1,0 +1,6 @@
+title: Architecture Diagrams
+arrange:
+  - system-overview.md
+  - vault-encryption.md
+  - extension-communication.md
+  - autofill-flow.md

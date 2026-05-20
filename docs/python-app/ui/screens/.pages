@@ -1,0 +1,10 @@
+title: TUI Screens
+arrange:
+  - unlock.md
+  - dashboard.md
+  - search.md
+  - entry-view.md
+  - entry-new.md
+  - entry-edit.md
+  - generator.md
+  - settings.md

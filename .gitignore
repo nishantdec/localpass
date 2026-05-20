@@ -1,0 +1,13 @@
+# MkDocs Build Artifacts
+/site/
+.sass-cache/
+
+# Python environment
+.venv/
+env/
+__pycache__/
+*.pyc
+
+# Local systems
+.DS_Store
+Thumbs.db

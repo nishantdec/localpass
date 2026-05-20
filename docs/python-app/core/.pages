@@ -1,0 +1,14 @@
+title: Core Modules
+arrange:
+  - auth.md
+  - vault.md
+  - adapter.md
+  - entries.md
+  - domain_trust.md
+  - passkey.md
+  - totp.md
+  - generator.md
+  - audit.md
+  - recovery.md
+  - migrations.md
+  - unlock_providers.md

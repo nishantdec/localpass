@@ -1,0 +1,5 @@
+title: API Reference
+arrange:
+  - local-server-api.md
+  - message-passing-api.md
+  - vault-file-format.md

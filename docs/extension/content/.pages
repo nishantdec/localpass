@@ -1,0 +1,6 @@
+title: Content Scripts
+arrange:
+  - injector.md
+  - dropdown.md
+  - observer.md
+  - messages.md

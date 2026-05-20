@@ -1,0 +1,9 @@
+title: System Architecture
+arrange:
+  - overview.md
+  - data-flow.md
+  - security-model.md
+  - extension-architecture.md
+  - decisions.md
+  - diagrams
+  - ...

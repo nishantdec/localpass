@@ -1,6 +1,6 @@
-[Home](../../README.md) •
+[Home](https://github.com/nishantdec/localpass/blob/main/README.md) •
 [Docs Index](../index.md) •
-[Quick Start](../../QUICKSTART.md) •
+[Quick Start](https://github.com/nishantdec/localpass/blob/main/QUICKSTART.md) •
 [Glossary](glossary.md)
 
 ---

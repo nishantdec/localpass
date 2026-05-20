@@ -1,0 +1,5 @@
+title: UI Components
+arrange:
+  - layout.md
+  - entry-list.md
+  - totp-display.md
