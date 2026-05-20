@@ -10,32 +10,60 @@ ai_context:
   boundary: "User Interface"
 ---
 
-<!-- localpass Hero Banner -->
+<!-- localpass Redesigned Hero Banner -->
 <div class="lp-hero-banner">
-  <h1 class="lp-hero-title">localpass Documentation</h1>
+  <h1 class="lp-hero-title">localpass Developer Portal</h1>
   <p class="lp-hero-subtitle">
-    The developer portal for localpass. A zero-knowledge, offline-first, phishing-resistant local password manager and WebExtension virtual passkey authenticator.
+    Explore the internal architecture, zero-knowledge security protocols, virtual passkey authenticators, and WebExtension integration schemas of localpass.
   </p>
-  <a href="../QUICKSTART.md" class="md-button md-button--primary" style="margin-right: 10px;">Quick Start Guide</a>
-  <a href="architecture/overview.md" class="md-button">Explore Architecture</a>
+  <div class="lp-hero-actions">
+    <a href="https://github.com/nishantdec/localpass/blob/main/QUICKSTART.md" class="lp-btn lp-btn-primary">Quick Start Guide</a>
+    <a href="architecture/overview.md" class="lp-btn lp-btn-secondary">Explore Architecture</a>
+  </div>
 </div>
 
-<!-- Modern Feature Grid -->
+## System Architecture Overview
+
+The `localpass` system consists of a sandboxed WebExtension running inside the browser that communicates via **Native Messaging (Stdio IPC)** with a background Python daemon. The daemon manages a local SQLite file encrypted using an envelope cryptosystem.
+
+```mermaid
+flowchart LR
+    subgraph Browser ["Web Browser Boundary (Untrusted)"]
+        ext["WebExtension Content & Popup UI"]
+    end
+
+    subgraph OS ["Local OS Environment (Secure)"]
+        daemon["Python IPC Daemon Core"]
+        vault[("Encrypted SQLCipher Envelope")]
+    end
+
+    ext <-->|Stdio Stream (JSON)| daemon
+    daemon <-->|Argon2id + AES-256-GCM| vault
+
+    style ext fill:#121214,stroke:#27272a,stroke-width:1px
+    style daemon fill:#121214,stroke:#27272a,stroke-width:1px
+    style vault fill:#121214,stroke:#06b6d4,stroke-width:2px
+```
+
+---
+
+## Core Technical Spheres
+
 <div class="lp-grid">
   
   <div class="lp-card" onclick="window.location.href='architecture/security-model.md';">
     <div class="lp-card-icon">🛡️</div>
-    <h3 class="lp-card-title">Zero Knowledge Security</h3>
+    <h3 class="lp-card-title">Zero-Knowledge Vault</h3>
     <p class="lp-card-desc">
-      Explore our envelope cryptosystem leveraging Argon2id key derivation and AES-256-GCM authenticated encryption.
+      Argon2id key derivation, memory scrubbing routines, and AES-256-GCM authenticated encryption envelopes.
     </p>
   </div>
 
   <div class="lp-card" onclick="window.location.href='reference/passkey-status.md';">
     <div class="lp-card-icon">🔑</div>
-    <h3 class="lp-card-title">FIDO2 Virtual Passkeys</h3>
+    <h3 class="lp-card-title">Virtual FIDO2 Passkeys</h3>
     <p class="lp-card-desc">
-      Detailed specifications of our ECDSA P-256 CBOR byte-packing virtual authenticators and attestation structures.
+      ECDSA P-256 credential generation, CBOR byte-packing structures, and WebAuthn attestation models.
     </p>
   </div>
 
@@ -43,15 +71,15 @@ ai_context:
     <div class="lp-card-icon">🏗️</div>
     <h3 class="lp-card-title">Native Stdio IPC</h3>
     <p class="lp-card-desc">
-      Read about our process boundaries, trust boundaries, and why we transitioned from TCP port sockets to standard I/O pipes.
+      Standard input/output communication protocols, process boundaries, and message frame limits.
     </p>
   </div>
 
-  <div class="lp-card" onclick="window.location.href='troubleshooting/mistakes-lessons.md';">
-    <div class="lp-card-icon">📓</div>
-    <h3 class="lp-card-title">Post-Mortem Logs</h3>
+  <div class="lp-card" onclick="window.location.href='contributing/onboarding.md';">
+    <div class="lp-card-icon">💻</div>
+    <h3 class="lp-card-title">Contributor Onboarding</h3>
     <p class="lp-card-desc">
-      Lessons learned from React state bypasses, ctypes memory scrubbing races, and MutationObserver infinite loops.
+      Development setup guidelines, pre-commit quality gates, markdown style rules, and commit standards.
     </p>
   </div>
 
@@ -61,52 +89,59 @@ ai_context:
 
 ## Technical Portals Navigation
 
-### System Architecture
-| Section | Description |
-|---|---|
-| [System Overview](architecture/overview.md) | Full multi-layered system map and AppData locations |
-| [Data Flow Architecture](architecture/data-flow.md) | Ingress/egress pipelines, schemas, and state loops |
-| [Security Model](architecture/security-model.md) | Cryptographic security model and threat analysis |
-| [Extension Internals](architecture/extension-architecture.md) | DOM scanner heuristics, MutationObservers, and element value set overrides |
-| [Design Decisions & Flows](architecture/decisions.md) | Detailed process post-mortems and Mermaid flowcharts |
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-top: 2rem;">
+
+  <div>
+    <h3>🏗️ System Architecture</h3>
+    <p style="font-size: 0.8rem; color: var(--md-default-fg-color--light); margin-bottom: 1rem;">Core security models, data flows, and design decisions.</p>
+    <ul style="padding-left: 1.25rem; font-size: 0.85rem; line-height: 1.8;">
+      <li><a href="architecture/overview.md">System Overview</a> — Multi-layered architecture map</li>
+      <li><a href="architecture/data-flow.md">Data Flow Architecture</a> — Ingress/egress state loops</li>
+      <li><a href="architecture/security-model.md">Security Model</a> — Cryptographic threat boundaries</li>
+      <li><a href="architecture/extension-architecture.md">Extension Internals</a> — DOM scanner heuristics</li>
+      <li><a href="architecture/decisions.md">Design Decisions & ADRs</a> — Stdio, SQLite, SQLCipher</li>
+    </ul>
+  </div>
+
+  <div>
+    <h3>🐍 Python Daemon Core</h3>
+    <p style="font-size: 0.8rem; color: var(--md-default-fg-color--light); margin-bottom: 1rem;">Key lifecycle, database adaptors, and backend engines.</p>
+    <ul style="padding-left: 1.25rem; font-size: 0.85rem; line-height: 1.8;">
+      <li><a href="python-app/core/auth.md">Auth & KDF</a> — Master password key derivation</li>
+      <li><a href="python-app/core/adapter.md">Vault Adapter</a> — Database interfaces</li>
+      <li><a href="python-app/core/audit.md">Audit Service</a> — Tamper-evident hash chaining</li>
+      <li><a href="python-app/core/domain_trust.md">Domain Engine</a> — Public Suffix List calculations</li>
+      <li><a href="python-app/core/migrations.md">Schema Upgrades</a> — SQLite migration loops</li>
+      <li><a href="python-app/core/totp.md">TOTP Engine</a> — RFC 6238 token generator</li>
+    </ul>
+  </div>
+
+  <div>
+    <h3>🌐 Browser Extension</h3>
+    <p style="font-size: 0.8rem; color: var(--md-default-fg-color--light); margin-bottom: 1rem;">Manifest V3 background scripting and DOM autocomplete overlays.</p>
+    <ul style="padding-left: 1.25rem; font-size: 0.85rem; line-height: 1.8;">
+      <li><a href="extension/overview.md">Extension Overview</a> — Manifest V3 architecture</li>
+      <li><a href="extension/background/background.md">Background Worker</a> — Service worker loops</li>
+      <li><a href="extension/content/dropdown.md">Inline Autocomplete</a> — Webpage field overlays</li>
+      <li><a href="extension/popup/popup.md">Popup SPA Views</a> — Popup HTML/CSS layout tokens</li>
+      <li><a href="extension/utils/bridge.md">Local Fetch Bridge</a> — Fetch bridges and timeouts</li>
+    </ul>
+  </div>
+
+  <div>
+    <h3>📖 Reference & Reference Logs</h3>
+    <p style="font-size: 0.8rem; color: var(--md-default-fg-color--light); margin-bottom: 1rem;">API schema validation models, CLI functions, and lessons learned.</p>
+    <ul style="padding-left: 1.25rem; font-size: 0.85rem; line-height: 1.8;">
+      <li><a href="api/local-server-api.md">Local Server Routes</a> — REST API endpoint schemas</li>
+      <li><a href="api/message-passing-api.md">Chrome Messages</a> — Extension message schemas</li>
+      <li><a href="api/vault-file-format.md">Vault File Format</a> — Vault JSON validation schema</li>
+      <li><a href="reference/function-index.md">Function Index</a> — Core Python API signatures</li>
+      <li><a href="troubleshooting/mistakes-lessons.md">Post-Mortem Logs</a> — Design pitfalls & bug fixes</li>
+    </ul>
+  </div>
+
+</div>
 
 ---
 
-### Python Daemon Core
-| Section | Description |
-|---|---|
-| [Auth & KDF](python-app/core/auth.md) | Master password KDF key-lifecycle and memory scrubbing |
-| [Vault Adapter](python-app/core/adapter.md) | Stateless decoupling bridge separating endpoints from SQLite disk envelopes |
-| [Audit Service](python-app/core/audit.md) | Thread-safe, tamper-evident transaction log hash-chaining |
-| [Domain Engine](python-app/core/domain_trust.md) | Phishing-resistant Public Suffix List (PSL) trust calculations |
-| [Schema Upgrades](python-app/core/migrations.md) | Schema version migration pipelines maintaining backward compatibility |
-| [TOTP Engine](python-app/core/totp.md) | RFC 6238-compliant TOTP codes generation |
-
----
-
-### Browser Extension WebExtension
-| Section | Description |
-|---|---|
-| [Extension Overview](extension/overview.md) | Manifest V3 sandboxed environment layout |
-| [Background Worker](extension/background/background.md) | Background lifecycle service worker loops |
-| [Inline Autocomplete](extension/content/dropdown.md) | Webpage form overlays and framework value filling |
-| [Popup SPA views](extension/popup/popup.md) | Single Page Application popup UI design tokens and views css |
-| [Local Client Fetch Bridge](extension/utils/bridge.md) | Localhost fetch bridges, security parameters, and timeouts |
-
----
-
-### API & Reference Directory
-| Section | Description |
-|---|---|
-| [Local Server Routes](api/local-server-api.md) | Comprehensive catalog of HTTP challenge-response REST routes |
-| [Chrome Messages](api/message-passing-api.md) | Runtime message structures and schemas |
-| [Vault File Format](api/vault-file-format.md) | Plaintext JSON schema validation models |
-| [Function Index](reference/function-index.md) | Exact signatures and return formats for core backend functions |
-| [Contribute Onboarding](contributing/onboarding.md) | Quality gates, markdown linting, pre-commits, and convention guides |
-
----
-
-*[Back to project root README](https://github.com/nishantdec/localpass/blob/main/README.md)*
-
----
-*[Back to Top](#)*
+*[Back to project root README](https://github.com/nishantdec/localpass/blob/main/README.md)* | *[Back to Top](#)*
