@@ -1,0 +1,1675 @@
+/**
+ * NorthLocker Extension — Popup Styles
+ * Bitwarden-inspired dark UI. Light mode via html.light.
+ * Sans-serif, clean cards, icon-driven navigation.
+ */
+
+/* ── Google Fonts ────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/@fontsource/geist-mono@5.0.1/400.css');
+
+/* ── Design tokens ───────────────────────────────── */
+:root {
+  /* Default Light Mode tokens */
+  --bg-base: #ebecf0;
+  --bg-surface: #ffffff;
+  --bg-card: #f4f5f8;
+  --bg-hover: #e4e7f3;
+  --bg-active: #d3defa;
+  --border: #c4c9dd;
+  --border-light: #a3aaba;
+  --accent: #3b72e8;
+  --accent-hover: #2a5fd4;
+  --text-primary: #0b0c10;
+  --text-secondary: #303548;
+  --text-muted: #5e637a;
+  --success: #16a34a;
+  --warning: #b45309;
+  --danger: #dc2626;
+
+  /* Misc */
+  --radius: 8px;
+  --radius-sm: 5px;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --font: 'Manrope', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'GeistMono', 'GeistMonoVariable', 'Courier New', monospace;
+}
+
+/* Dark mode when html doesn't have class="light" */
+html:not(.light) {
+  --bg-base: #0c0d12;
+  --bg-surface: #161720;
+  --bg-card: #1d1e28;
+  --bg-hover: #252736;
+  --bg-active: #1c2947;
+  --border: #35374a;
+  --border-light: #474a63;
+  --accent: #4f8ef7;
+  --accent-hover: #6aa3ff;
+  --text-primary: #ffffff;
+  --text-secondary: #b5bcce;
+  --text-muted: #7a819c;
+  --success: #4ade80;
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Reset ───────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ── Root layout ─────────────────────────────────── */
+html,
+body {
+  width: 420px;
+  height: 580px;
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+#nl-app {
+  display: flex;
+  flex-direction: column;
+  width: 420px;
+  height: 580px;
+  background: var(--bg-base);
+  overflow: hidden;
+}
+
+/* ── Popup Sizing Presets ────────────────────────── */
+html.size-compact,
+html.size-compact body {
+  width: 360px;
+  height: 500px;
+}
+
+html.size-compact #nl-app {
+  width: 360px;
+  height: 500px;
+}
+
+html.size-default,
+html.size-default body {
+  width: 420px;
+  height: 580px;
+}
+
+html.size-default #nl-app {
+  width: 420px;
+  height: 580px;
+}
+
+html.size-wider,
+html.size-wider body {
+  width: 480px;
+  height: 600px;
+}
+
+html.size-wider #nl-app {
+  width: 480px;
+  height: 600px;
+}
+
+html.size-extra-wide,
+html.size-extra-wide body {
+  width: 560px;
+  height: 600px;
+}
+
+html.size-extra-wide #nl-app {
+  width: 560px;
+  height: 600px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+
+/* ── Header ──────────────────────────────────────── */
+#nl-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+#nl-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#nl-title {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.2px;
+}
+
+#nl-header-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Primary "New" button */
+.nl-header-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font);
+  cursor: pointer;
+  border: none;
+  transition: background 0.15s;
+}
+
+.nl-header-btn i {
+  font-size: 14px;
+}
+
+.nl-header-btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.nl-header-btn-primary:hover {
+  background: var(--accent-hover);
+}
+
+/* Icon-only buttons */
+.nl-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.nl-icon-btn i {
+  font-size: 18px;
+}
+
+.nl-icon-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* ── Dropdown menu (New button) ──────────────────── */
+.nl-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  min-width: 160px;
+  z-index: 9999;
+  overflow: hidden;
+  animation: nl-fade-in 0.12s ease;
+}
+
+@keyframes nl-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.nl-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.nl-dropdown-item i {
+  font-size: 16px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.nl-dropdown-item:hover {
+  background: var(--bg-hover);
+}
+
+.nl-dropdown-item.danger {
+  color: var(--danger);
+}
+
+.nl-dropdown-item.danger i {
+  color: var(--danger);
+}
+
+.nl-dropdown-item.danger:hover {
+  background: #dc262610;
+}
+
+.nl-dropdown-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 4px 0;
+}
+
+/* Wrapper for New button + dropdown needs position:relative */
+#nl-header-right {
+  position: relative;
+}
+
+
+/* ── Back bar ────────────────────────────────────── */
+#nl-back-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+#nl-back-bar.hidden {
+  display: none;
+}
+
+#nl-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+}
+
+#nl-back-btn i {
+  font-size: 14px;
+}
+
+#nl-back-btn:hover {
+  background: var(--bg-hover);
+  color: var(--accent-hover);
+}
+
+#nl-view-title {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+/* ── Global search bar ───────────────────────────── */
+#nl-search-wrap {
+  padding: 10px 14px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+#nl-search-wrap.hidden {
+  display: none;
+}
+
+#nl-search-inner {
+  display: flex;
+  align-items: center;
+  background: var(--bg-base);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0 10px;
+  gap: 8px;
+  transition: border-color 0.15s;
+}
+
+#nl-search-inner:focus-within {
+  border-color: var(--accent);
+}
+
+#nl-search-icon {
+  font-size: 16px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+#nl-global-search {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-primary);
+  padding: 8px 0;
+}
+
+#nl-global-search::placeholder {
+  color: var(--text-muted);
+}
+
+/* ── Content area ────────────────────────────────── */
+#nl-content {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 100px;
+}
+
+#nl-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+#nl-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#nl-content::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+#nl-content::-webkit-scrollbar-thumb:hover {
+  background: var(--border-light);
+}
+
+/* ── Section headers ─────────────────────────────── */
+.nl-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px 4px;
+}
+
+.nl-section-title {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.nl-section-count {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: var(--bg-card);
+  padding: 1px 7px;
+  border-radius: 20px;
+}
+
+/* ── Entry cards ─────────────────────────────────── */
+.nl-entry-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.12s;
+  cursor: pointer;
+}
+
+.nl-entry-row:hover {
+  background: var(--bg-hover);
+}
+
+/* Site icon / avatar */
+.nl-entry-avatar {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+}
+
+.nl-entry-avatar img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.nl-entry-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.nl-entry-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nl-entry-sub {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+
+/* Action icon buttons on entry rows */
+.nl-entry-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.nl-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+  flex-shrink: 0;
+}
+
+.nl-action-btn i {
+  font-size: 15px;
+}
+
+.nl-action-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.nl-action-btn.accent {
+  color: var(--accent);
+}
+
+.nl-action-btn.accent:hover {
+  background: var(--bg-active);
+}
+
+.nl-action-btn.totp {
+  color: var(--text-muted);
+}
+
+.nl-action-btn.totp:hover {
+  background: var(--bg-active);
+}
+
+/* ── Bottom nav ──────────────────────────────────── */
+#nl-bottom-nav {
+  display: flex;
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.nl-nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 10px 4px;
+  background: transparent;
+  border: none;
+  font-family: var(--font);
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.15s;
+  border-top: 2px solid transparent;
+}
+
+.nl-nav-item i {
+  font-size: 18px;
+}
+
+.nl-nav-item:hover {
+  color: var(--text-primary);
+}
+
+.nl-nav-item.active {
+  color: var(--accent);
+  border-top-color: var(--accent);
+}
+
+/* ── Empty / state ───────────────────────────────── */
+.nl-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  gap: 10px;
+  text-align: center;
+}
+
+.nl-empty-icon i {
+  font-size: 40px;
+  color: var(--border-light);
+}
+
+.nl-empty-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.nl-empty-hint {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+/* ── Footer quick actions ────────────────────────── */
+.nl-footer-actions {
+  display: flex;
+  gap: 14px;
+  padding: 10px 16px;
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border);
+}
+
+.nl-action {
+  font-size: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.nl-action:hover {
+  color: var(--accent);
+}
+
+/* ── Search results view ─────────────────────────── */
+.nl-search-bar {
+  display: none;
+}
+
+/* replaced by global search bar */
+
+#nl-search-results {
+  padding-bottom: 4px;
+}
+
+/* ── Buttons (forms) ─────────────────────────────── */
+.nl-btn {
+  font-size: 11px;
+  font-family: var(--font);
+  font-weight: 700;
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+
+.nl-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+  border-color: var(--border-light);
+}
+
+.nl-btn-primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.nl-btn-primary:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+.nl-btn-totp {
+  color: var(--warning);
+  border-color: var(--warning);
+}
+
+.nl-btn-totp:hover {
+  background: rgba(251, 191, 36, 0.1);
+}
+
+.nl-btn-danger {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.nl-btn-danger:hover {
+  background: rgba(248, 113, 113, 0.1);
+}
+
+.nl-btn-sm {
+  padding: 4px 10px;
+  font-size: 11px;
+}
+
+/* Legacy small buttons still used in some views */
+.nl-edit-btn,
+.nl-edit-sr {
+  font-size: 11px;
+  font-family: var(--font);
+  padding: 3px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  transition: background 0.12s;
+}
+
+.nl-edit-btn:hover,
+.nl-edit-sr:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* ── Badge ───────────────────────────────────────── */
+.nl-badge {
+  font-size: 8px;
+  font-weight: 800;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 1px 6px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  flex-shrink: 0;
+}
+
+/* ── Form views ──────────────────────────────────── */
+.nl-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px 16px;
+}
+
+.nl-form-group>label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.nl-form-group input[type="text"],
+.nl-form-group input[type="password"],
+.nl-form-group input[type="number"],
+.nl-form-group select {
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.nl-form-group input:focus,
+.nl-form-group select:focus {
+  border-color: var(--accent);
+}
+
+.nl-form-group input::placeholder {
+  color: var(--text-muted);
+}
+
+.nl-password-row {
+  display: flex;
+  gap: 8px;
+}
+
+.nl-password-row input {
+  flex: 1;
+}
+
+.nl-strength-bar {
+  height: 3px;
+  border-radius: 2px;
+  margin-top: 5px;
+  transition: width 0.3s, background 0.3s;
+  background: var(--border);
+}
+
+.nl-strength-label {
+  font-size: 10px;
+  margin-top: 3px;
+  font-weight: 500;
+}
+
+.strength-weak {
+  color: var(--danger);
+}
+
+.strength-fair {
+  color: var(--warning);
+}
+
+.strength-strong {
+  color: var(--accent);
+}
+
+.strength-very-strong {
+  color: var(--success);
+}
+
+.nl-form-actions {
+  display: none !important;
+}
+
+.nl-confirmation {
+  color: var(--success);
+  font-size: 12px;
+  text-align: center;
+  padding: 12px;
+}
+
+.nl-confirmation.hidden {
+  display: none;
+}
+
+/* ── Detail view ─────────────────────────────────── */
+.nl-detail {
+  padding: 16px;
+}
+
+.nl-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.nl-detail-username {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.nl-detail-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.nl-detail-label {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 72px;
+}
+
+.nl-detail-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nl-detail-actions {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+}
+
+.nl-delete-confirm {
+  padding: 8px 16px;
+  font-size: 11px;
+  color: var(--danger);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nl-delete-confirm.hidden {
+  display: none;
+}
+
+/* ── Generator view ──────────────────────────────── */
+.nl-generator {
+  padding: 16px;
+}
+
+.nl-gen-output {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.nl-gen-password {
+  font-size: 14px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--text-primary);
+  word-break: break-all;
+  margin-bottom: 10px;
+  letter-spacing: 1.5px;
+}
+
+.nl-gen-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.nl-gen-strength {
+  font-size: 10.5px;
+  font-weight: 700;
+}
+
+.nl-gen-strength.strength-weak {
+  color: var(--danger);
+}
+
+.nl-gen-strength.strength-fair {
+  color: var(--warning);
+}
+
+.nl-gen-strength.strength-strong {
+  color: var(--accent);
+}
+
+.nl-gen-strength.strength-very-strong {
+  color: var(--success);
+}
+
+.nl-gen-guaranteed {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+
+.nl-gen-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nl-gen-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nl-gen-row label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  min-width: 76px;
+}
+
+.nl-gen-toggle {
+  font-size: 11px;
+  font-family: var(--font);
+  font-weight: 500;
+  cursor: pointer;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: none;
+  transition: background 0.12s, color 0.12s;
+}
+
+.nl-gen-toggle.on {
+  background: var(--accent);
+  color: #fff;
+}
+
+.nl-gen-toggle.off {
+  background: var(--bg-card);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+.nl-gen-min-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+.nl-gen-footer {
+  margin-top: 14px;
+  text-align: center;
+}
+
+/* ── Settings / autologin views ──────────────────── */
+.nl-settings {
+  padding: 8px 0;
+}
+
+.nl-settings-section {
+  margin-bottom: 8px;
+}
+
+.nl-settings-heading {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 10px 16px 6px;
+}
+
+/* Settings list items (Bitwarden-style) */
+.nl-settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 16px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.nl-settings-row:hover {
+  background: var(--bg-hover);
+}
+
+.nl-settings-row-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nl-settings-row-left i {
+  font-size: 18px;
+  color: var(--text-muted);
+}
+
+.nl-settings-row-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+}
+
+.nl-settings-row-right i {
+  font-size: 14px;
+}
+
+.nl-settings-toggle {
+  font-size: 11px;
+  font-family: var(--font);
+  font-weight: 500;
+  cursor: pointer;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: none;
+  transition: background 0.12s, color 0.12s;
+}
+
+.nl-settings-toggle.on {
+  background: var(--accent);
+  color: #fff;
+}
+
+.nl-settings-toggle.off {
+  background: var(--bg-card);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+/* ── Menu view ───────────────────────────────────── */
+.nl-menu {
+  padding: 8px 0;
+}
+
+.nl-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.12s;
+}
+
+.nl-menu-item:hover {
+  background: var(--bg-hover);
+}
+
+.nl-menu-item:last-child {
+  border-bottom: none;
+}
+
+.nl-menu-item i {
+  font-size: 18px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.nl-menu-item-chevron {
+  margin-left: auto;
+  color: var(--border-light);
+}
+
+.nl-menu-item-chevron i {
+  font-size: 14px;
+}
+
+/* ── Utility ─────────────────────────────────────── */
+.hidden {
+  display: none !important;
+}
+
+.nl-success {
+  color: var(--success);
+}
+
+.nl-error {
+  color: var(--danger);
+}
+
+.nl-muted {
+  color: var(--text-muted);
+}
+
+/* Legacy mono username span still used in some views */
+.nl-username {
+  font-size: 12px;
+  color: var(--text-primary);
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  cursor: pointer;
+}
+
+/* ── Scrollbar (content area) ────────────────────── */
+#nl-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+#nl-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#nl-content::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+#nl-content::-webkit-scrollbar-thumb:hover {
+  background: var(--border-light);
+}
+
+/* ── Improved Generator Layout ───────────────────── */
+.nl-gen-tabs-container {
+  display: flex;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin: 14px 16px;
+  padding: 4px;
+}
+
+.nl-gen-tab {
+  flex: 1;
+  text-align: center;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nl-gen-tab:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+}
+
+.nl-gen-tab.active {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.nl-gen-output-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  margin: 0 16px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.nl-gen-output-text {
+  flex: 1;
+  font-family: var(--font);
+  font-size: 13px;
+  word-break: break-all;
+  user-select: all;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.nl-gen-output-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.nl-gen-output-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 16px;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease;
+}
+
+.nl-gen-output-btn:hover {
+  color: var(--text-primary);
+}
+
+.nl-gen-checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.nl-gen-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.nl-gen-checkbox-label input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+}
+
+.nl-checkbox-icon {
+  font-size: 16px;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.nl-checkbox-icon.ph-check-circle {
+  color: var(--accent);
+}
+
+.nl-checkbox-icon.ph-circle {
+  color: var(--text-muted);
+}
+
+.nl-gen-checkbox-label:hover .nl-checkbox-icon.ph-circle {
+  color: var(--text-secondary);
+}
+
+.nl-gen-select {
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.nl-gen-select:focus {
+  border-color: var(--accent);
+}
+
+.nl-gen-history-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.nl-gen-history-hdr {
+  padding: 10px 12px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s ease;
+}
+
+.nl-gen-history-hdr:hover {
+  background: var(--bg-hover);
+}
+
+.nl-gen-history-caret {
+  font-size: 12px;
+  transition: transform 0.2s;
+}
+
+.nl-gen-history-list {
+  display: none;
+  border-top: 1px solid var(--border);
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.nl-history-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  gap: 8px;
+  background: var(--bg-base);
+}
+
+.nl-history-row:last-child {
+  border-bottom: none;
+}
+
+/* Switch toggle slider */
+.nl-switch {
+  position: relative;
+  display: inline-block;
+  width: 32px;
+  height: 18px;
+}
+
+.nl-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.nl-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--border-light);
+  transition: .2s;
+  border-radius: 18px;
+}
+
+.nl-slider:before {
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .2s;
+  border-radius: 50%;
+}
+
+input:checked + .nl-slider {
+  background-color: var(--accent);
+}
+
+input:focus + .nl-slider {
+  box-shadow: 0 0 1px var(--accent);
+}
+
+input:checked + .nl-slider:before {
+  transform: translateX(14px);
+}
+
+/* ── Settings Landing Menu ── */
+.nl-settings-menu {
+  padding: 8px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.nl-settings-menu .nl-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 16px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.nl-settings-menu .nl-menu-item:hover {
+  background: var(--bg-hover);
+}
+
+.nl-settings-menu .nl-menu-item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.nl-settings-menu .nl-menu-item-left i {
+  color: var(--text-muted);
+}
+
+.nl-settings-menu .nl-menu-chevron {
+  color: var(--border-light);
+  font-size: 12px;
+}
+
+/* ── Modal Overlay ── */
+.nl-modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: nl-fade-in 0.15s ease-out;
+}
+
+.nl-modal-container {
+  width: 85%;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: nl-modal-zoom 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes nl-modal-zoom {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.nl-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.nl-modal-warn-icon {
+  color: var(--danger);
+  font-size: 18px;
+}
+
+.nl-modal-body {
+  padding: 8px 16px 16px;
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.nl-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 10px 16px 14px;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+}
+
+.nl-action-btn.nl-btn-danger:hover {
+  background: rgba(239, 68, 68, 0.1) !important;
+  color: var(--danger) !important;
+}
+
+.nl-history-copy-btn {
+  transition: color 0.15s;
+}
+
+.nl-history-copy-btn:hover {
+  color: var(--text-primary) !important;
+}
+
+/* Sticky bottom form actions bar replacing standard bottom navigation tabs */
+#nl-form-actions-bar {
+  display: flex;
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+  height: 56px;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  z-index: 10;
+}
+
+#nl-form-actions-bar .nl-btn {
+  height: 36px;
+  font-size: 11.5px;
+  border-radius: 6px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+#nl-form-actions-bar #nl-form-save-btn {
+  background: var(--accent);
+  color: #ffffff;
+  border: none;
+}
+
+#nl-form-actions-bar #nl-form-save-btn:hover {
+  background: var(--accent-hover);
+}
+
+#nl-form-actions-bar #nl-form-cancel-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+}
+
+#nl-form-actions-bar #nl-form-cancel-btn:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-light);
+}
+
+/* ── Folder & Type Filter Bar ── */
+#nl-filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  box-sizing: border-box;
+}
+
+.nl-filter-select-wrap {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-size: 11.5px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.nl-filter-select-wrap:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-light);
+}
+
+.nl-filter-select-label {
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: 600;
+}
+
+.nl-filter-caret {
+  font-size: 9px;
+  color: var(--text-muted);
+  transition: transform 0.15s;
+}
+
+.nl-filter-select-wrap.active .nl-filter-caret {
+  transform: rotate(180deg);
+}
+
+.nl-filter-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  z-index: 100;
+  max-height: 180px;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+.nl-filter-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  color: var(--text-secondary);
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.nl-filter-dropdown-item:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.nl-filter-dropdown-item.active {
+  background: rgba(89, 114, 232, 0.1);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.nl-dropdown-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 4px 0;
+}

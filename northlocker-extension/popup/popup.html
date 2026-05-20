@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NorthLocker</title>
+  <!-- Prevents FOUC — no inline scripts (MV3 CSP) -->
+  <script src="theme-init.js"></script>
+  <style>body { background: #13141a; margin: 0; }</style>
+  <link rel="stylesheet" href="phosphor/style.css">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div id="nl-app">
+
+    <!-- ── Header ── -->
+    <header id="nl-header">
+      <div id="nl-header-left">
+        <span id="nl-title">Vault</span>
+      </div>
+      <div id="nl-header-right">
+        <button id="nl-new-entry-btn" class="nl-header-btn nl-header-btn-primary" title="New entry">
+          <i class="ph-duotone ph-plus-circle"></i>
+          New
+        </button>
+        <!-- New-item dropdown (hidden by default) -->
+        <div id="nl-new-dropdown" class="nl-dropdown hidden">
+          <div class="nl-dropdown-item" data-action="new-login">
+            <i class="ph-duotone ph-globe"></i>
+            Login
+          </div>
+          <div class="nl-dropdown-item" data-action="new-card">
+            <i class="ph-duotone ph-credit-card"></i>
+            Card
+          </div>
+          <div class="nl-dropdown-item" data-action="new-identity">
+            <i class="ph-duotone ph-identification-card"></i>
+            Identity
+          </div>
+          <div class="nl-dropdown-item" data-action="new-note">
+            <i class="ph-duotone ph-file-text"></i>
+            Note
+          </div>
+          <div class="nl-dropdown-divider"></div>
+          <div class="nl-dropdown-item" data-action="new-folder">
+            <i class="ph-duotone ph-folder-plus"></i>
+            Folder
+          </div>
+        </div>
+        <button id="nl-theme-toggle" class="nl-icon-btn" title="Toggle theme">
+          <i id="nl-theme-icon" class="ph-duotone ph-moon"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- ── Back bar (shown when inside a sub-view) ── -->
+    <div id="nl-back-bar" class="hidden">
+      <button id="nl-back-btn">
+        <i class="ph-duotone ph-caret-left"></i>
+        Back
+      </button>
+      <span id="nl-view-title"></span>
+    </div>
+
+    <!-- ── Global search bar (hidden in sub-views) ── -->
+    <div id="nl-search-wrap">
+      <div id="nl-search-inner">
+        <i id="nl-search-icon" class="ph-duotone ph-magnifying-glass"></i>
+        <input type="text" id="nl-global-search" placeholder="Search vault…" autocomplete="off" spellcheck="false">
+        <button id="nl-search-clear" class="nl-icon-btn hidden" title="Clear search">
+          <i class="ph-duotone ph-x-circle"></i>
+        </button>
+      </div>
+
+      <!-- ── Folder & Type filter bar ── -->
+      <div id="nl-filter-bar">
+        <div class="nl-filter-select-wrap" id="nl-folder-filter-wrap">
+          <i class="ph-duotone ph-folder"></i>
+          <span class="nl-filter-select-label" id="nl-folder-filter-label">Folder</span>
+          <i class="ph-duotone ph-caret-down nl-filter-caret"></i>
+          
+          <div id="nl-folder-filter-dropdown" class="nl-filter-dropdown hidden">
+            <!-- Dynamically populated folders list -->
+          </div>
+        </div>
+        
+        <div class="nl-filter-select-wrap" id="nl-type-filter-wrap">
+          <i class="ph-duotone ph-list-bullets"></i>
+          <span class="nl-filter-select-label" id="nl-type-filter-label">Type</span>
+          <i class="ph-duotone ph-caret-down nl-filter-caret"></i>
+          
+          <div id="nl-type-filter-dropdown" class="nl-filter-dropdown hidden">
+            <div class="nl-filter-dropdown-item active" data-type="all">
+              <i class="ph-duotone ph-squares-four"></i> All types
+            </div>
+            <div class="nl-filter-dropdown-item" data-type="login">
+              <i class="ph-duotone ph-globe"></i> Login
+            </div>
+            <div class="nl-filter-dropdown-item" data-type="card">
+              <i class="ph-duotone ph-credit-card"></i> Card
+            </div>
+            <div class="nl-filter-dropdown-item" data-type="identity">
+              <i class="ph-duotone ph-identification-card"></i> Identity
+            </div>
+            <div class="nl-filter-dropdown-item" data-type="note">
+              <i class="ph-duotone ph-file-text"></i> Note
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Main content ── -->
+    <main id="nl-content"></main>
+
+    <!-- ── Bottom navigation ── -->
+    <nav id="nl-bottom-nav">
+      <!-- Vault -->
+      <button class="nl-nav-item active" data-view="entries">
+        <i class="ph-duotone ph-lock"></i>
+        <span>Vault</span>
+      </button>
+      <!-- Generator -->
+      <button class="nl-nav-item" data-view="generator">
+        <i class="ph-duotone ph-key"></i>
+        <span>Generator</span>
+      </button>
+      <!-- Settings -->
+      <button class="nl-nav-item" data-view="settings">
+        <i class="ph-duotone ph-gear"></i>
+        <span>Settings</span>
+      </button>
+    </nav>
+
+    <!-- ── Form actions bar ── -->
+    <div id="nl-form-actions-bar" class="hidden">
+      <button id="nl-form-save-btn" class="nl-btn nl-btn-primary">Save</button>
+      <button id="nl-form-cancel-btn" class="nl-btn">Cancel</button>
+    </div>
+
+    <!-- ── Row action dropdown ── -->
+    <div id="nl-row-dropdown" class="nl-dropdown hidden">
+      <div class="nl-dropdown-item" data-action="autofill">
+        <i class="ph-duotone ph-arrow-square-in"></i>
+        <span>Autofill</span>
+      </div>
+      <div class="nl-dropdown-item" data-action="favorite">
+        <i class="ph-duotone ph-star" id="nl-row-drop-fav-icon"></i>
+        <span id="nl-row-drop-fav-text">Favorite</span>
+      </div>
+      <div class="nl-dropdown-item" data-action="edit">
+        <i class="ph-duotone ph-pencil-simple"></i>
+        <span>Edit</span>
+      </div>
+      <div class="nl-dropdown-item" data-action="clone">
+        <i class="ph-duotone ph-copy"></i>
+        <span>Clone</span>
+      </div>
+      <div class="nl-dropdown-item" data-action="archive">
+        <i class="ph-duotone ph-archive" id="nl-row-drop-arc-icon"></i>
+        <span id="nl-row-drop-arc-text">Archive</span>
+      </div>
+      <div class="nl-dropdown-divider"></div>
+      <div class="nl-dropdown-item danger" data-action="delete">
+        <i class="ph-duotone ph-trash"></i>
+        <span>Delete</span>
+      </div>
+    </div>
+
+    <!-- ── Delete Confirmation Modal ── -->
+    <div id="nl-delete-modal" class="nl-modal-overlay hidden">
+      <div class="nl-modal-container">
+        <div class="nl-modal-header">
+          <i class="ph-duotone ph-warning-circle nl-modal-warn-icon"></i>
+          <span>Delete Entry</span>
+        </div>
+        <div class="nl-modal-body">
+          Are you sure you want to delete this entry? This action cannot be undone.
+        </div>
+        <div class="nl-modal-footer">
+          <button id="nl-delete-cancel-btn" class="nl-btn">Cancel</button>
+          <button id="nl-delete-confirm-btn" class="nl-btn nl-btn-danger">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Default Password Manager Onboarding Modal ── -->
+    <div id="nl-default-modal" class="nl-modal-overlay hidden">
+      <div class="nl-modal-container">
+        <div class="nl-modal-header">
+          <i class="ph-duotone ph-shield-check" style="font-size:18px;color:var(--accent)"></i>
+          <span>Make NorthLocker Default?</span>
+        </div>
+        <div class="nl-modal-body" style="font-size:11.5px;line-height:1.4">
+          Ignoring this option may cause conflicts between NorthLocker autofill suggestions and your browser's built-in password manager.
+        </div>
+        <div class="nl-modal-footer">
+          <button id="nl-default-cancel-btn" class="nl-btn">Cancel</button>
+          <button id="nl-default-confirm-btn" class="nl-btn nl-btn-primary">Continue</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Create Folder Modal ── -->
+    <div id="nl-folder-modal" class="nl-modal-overlay hidden">
+      <div class="nl-modal-container" style="max-width:320px">
+        <div class="nl-modal-header">
+          <i class="ph-duotone ph-folder-plus" style="font-size:18px;color:var(--accent)"></i>
+          <span>Create New Folder</span>
+        </div>
+        <div class="nl-modal-body" style="padding:10px 0">
+          <input type="text" id="nl-folder-name-input" placeholder="Folder name…" autocomplete="off"
+            style="width:100%;box-sizing:border-box;padding:8px 10px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg-card);color:var(--text-primary);font-size:12.5px;outline:none">
+        </div>
+        <div class="nl-modal-footer">
+          <button id="nl-folder-cancel-btn" class="nl-btn">Cancel</button>
+          <button id="nl-folder-confirm-btn" class="nl-btn nl-btn-primary">Create</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="../utils/generator.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>NorthLocker — Passkey Confirmation</title>
+  <!-- Prevents FOUC — no inline scripts (MV3 CSP) -->
+  <script src="theme-init.js"></script>
+  <link rel="stylesheet" type="text/css" href="phosphor/style.css">
+  <link rel="stylesheet" type="text/css" href="popup.css">
+  <style>
+    :root {
+      --accent-rgb: 59, 114, 232;
+    }
+    html:not(.light) {
+      --accent-rgb: 79, 142, 247;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+    body {
+      padding: 24px;
+      background: var(--bg-base);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-family: var(--font);
+    }
+    .dialog-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+    }
+    .dialog-icon-wrapper {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(var(--accent-rgb), 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid rgba(var(--accent-rgb), 0.2);
+    }
+    .dialog-logo {
+      font-size: 24px;
+      color: var(--accent);
+    }
+    .dialog-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.3px;
+    }
+    .dialog-subtitle {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: -6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      justify-content: center;
+    }
+    .dialog-subtitle i {
+      color: var(--success);
+    }
+    .dialog-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .dialog-info-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    .dialog-info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      padding-bottom: 8px;
+    }
+    .dialog-info-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .dialog-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .dialog-value {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-align: right;
+      word-break: break-all;
+    }
+    .dialog-actions {
+      display: flex;
+      gap: 12px;
+    }
+    .dialog-btn {
+      flex: 1;
+      padding: 10px;
+      font-size: 12px;
+    }
+    .passkey-select {
+      display: none;
+    }
+    .passkey-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+    .passkey-card:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-light);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    .passkey-card.selected {
+      background: rgba(var(--accent-rgb), 0.12) !important;
+      border-color: var(--accent) !important;
+      box-shadow: 0 0 0 1px var(--accent), 0 4px 12px rgba(var(--accent-rgb), 0.15);
+    }
+    .passkey-card-icon {
+      font-size: 20px;
+      color: var(--text-muted);
+      transition: color 0.15s ease;
+    }
+    .passkey-card.selected .passkey-card-icon {
+      color: var(--accent);
+    }
+    .passkey-card-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+    .passkey-card-title {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .passkey-card-meta {
+      font-size: 10px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .passkey-card-dot {
+      display: inline-block;
+      width: 3px;
+      height: 3px;
+      background: var(--text-muted);
+      opacity: 0.5;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+  <div style="flex:1; display:flex; flex-direction:column;">
+    <div class="dialog-header">
+      <div class="dialog-icon-wrapper">
+        <i class="ph-duotone ph-fingerprint dialog-logo"></i>
+      </div>
+      <div class="dialog-title" id="dialog-title">Passkey Request</div>
+      <div class="dialog-subtitle">
+        <i class="ph-duotone ph-shield-check"></i>
+        <span>Secure Identity Verification</span>
+      </div>
+    </div>
+    <div class="dialog-body">
+      <div class="dialog-info-card">
+        <div class="dialog-info-row">
+          <span class="dialog-label">Request Type</span>
+          <span class="dialog-value" id="info-type" style="color:var(--accent); font-weight:700">Loading...</span>
+        </div>
+        <div class="dialog-info-row">
+          <span class="dialog-label">Website (RP)</span>
+          <span class="dialog-value" id="info-rp">Loading...</span>
+        </div>
+        <div class="dialog-info-row" id="user-row" style="display:none">
+          <span class="dialog-label">Username</span>
+          <span class="dialog-value" id="info-user"></span>
+        </div>
+      </div>
+      
+      <div id="selection-container" style="display:none">
+        <label class="dialog-label" style="display:block; margin-bottom:8px">Select Passkey to Sign In</label>
+        <div id="passkeys-list-container" style="display:flex; flex-direction:column; gap:8px; max-height:190px; overflow-y:auto; padding-right:4px;">
+          <!-- populated dynamically -->
+        </div>
+        <select id="passkey-select" class="passkey-select"></select>
+      </div>
+
+      <div id="no-passkey-warning" class="nl-error" style="display:none; font-size:11px; text-align:center; padding: 10px;">
+        No passkeys found for this website.
+      </div>
+    </div>
+  </div>
+
+  <div class="dialog-actions">
+    <button class="nl-btn" id="btn-cancel" style="flex:1">Cancel</button>
+    <button class="nl-btn nl-btn-primary" id="btn-confirm" style="flex:1" disabled>Confirm</button>
+  </div>
+
+  <script src="passkey_dialog.js"></script>
+</body>
+</html>
