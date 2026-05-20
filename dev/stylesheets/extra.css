@@ -108,6 +108,24 @@ code, kbd, pre, samp {
   transition: background-color var(--transition-fast);
 }
 
+.md-header__button,
+.md-header__title,
+.md-source,
+.md-search__input {
+  color: var(--md-default-fg-color) !important;
+}
+
+.md-header__button svg,
+.md-source__icon svg,
+.md-search__icon svg {
+  fill: var(--md-default-fg-color) !important;
+}
+
+.md-header__button:hover,
+.md-source:hover {
+  opacity: 0.8;
+}
+
 /* Modern Minimalist Navigation Tabs */
 .md-tabs {
   background-color: var(--md-default-bg-color) !important;
