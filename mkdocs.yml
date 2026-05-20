@@ -28,7 +28,6 @@ theme:
   features:
     - navigation.instant
     - navigation.tracking
-    - navigation.tabs
     - navigation.top
     - navigation.sections
     - navigation.expand
@@ -38,10 +37,10 @@ theme:
     - content.code.copy
 
 extra_css:
-  - stylesheets/extra.css
+  - stylesheets/extra.css?v=1.2.0
 
 extra_javascript:
-  - javascripts/extra.js
+  - javascripts/extra.js?v=1.2.0
 
 plugins:
   - search:
